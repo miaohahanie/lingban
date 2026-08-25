@@ -1,0 +1,19 @@
+appId: com.lingban.spiritmate
+productName: 灵伴
+directories:
+  output: release
+files:
+  - out/**/*
+  - resources/**/*
+  - package.json
+extraResources:
+  - from: resources/pet-anims
+    to: pet-anims
+  - from: resources/icon.png
+    to: icon.png
+win:
+  target: nsis
+  artifactName: LingBan-Setup-${version}.${ext}
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true

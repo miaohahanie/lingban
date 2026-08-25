@@ -1,0 +1,31 @@
+{
+  "name": "lingban",
+  "productName": "灵伴",
+  "version": "0.1.0",
+  "description": "灵伴（Spirit Mate）— AI 桌面伴侣：任务规划、专注计时、日记复盘、情绪化桌宠",
+  "main": "out/main/index.js",
+  "author": "LingBan Project",
+  "license": "(MIT AND CC-BY-NC-SA-4.0)",
+  "private": true,
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "start": "electron-vite preview",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "dist": "electron-vite build && electron-builder"
+  },
+  "dependencies": {
+    "pinia": "^2.3.0",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^2.3.0",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11",
+    "vue-tsc": "^2.2.0"
+  }
+}

@@ -1,0 +1,202 @@
+[
+  {
+    "assetId": "greeting_good_morning",
+    "file": "早上好呀.gif",
+    "caption": "早上好呀，主人~",
+    "category": "greeting",
+    "loop": false,
+    "cooldownMin": 0,
+    "priority": 60,
+    "durationSec": 6
+  },
+  {
+    "assetId": "focus_morning",
+    "file": "早上工作喵~.gif",
+    "caption": "早上工作喵~",
+    "category": "focus_start",
+    "loop": false,
+    "cooldownMin": 0,
+    "priority": 55,
+    "durationSec": 6
+  },
+  {
+    "assetId": "focus_working",
+    "file": "工作ing.gif",
+    "caption": "主人要加油工作哦！",
+    "category": "focus",
+    "loop": false,
+    "cooldownMin": 0,
+    "priority": 40,
+    "durationSec": 7
+  },
+  {
+    "assetId": "health_dizzy",
+    "file": "工作做晕了.gif",
+    "caption": "工作做晕了，休息一下吧~",
+    "category": "health",
+    "loop": false,
+    "cooldownMin": 60,
+    "priority": 58,
+    "durationSec": 7
+  },
+  {
+    "assetId": "cheer_go",
+    "file": "主人加油呀~.gif",
+    "caption": "主人加油呀！",
+    "category": "cheer",
+    "loop": false,
+    "cooldownMin": 0,
+    "priority": 55,
+    "durationSec": 6
+  },
+  {
+    "assetId": "praise_amazing",
+    "file": "主人好厉害！.gif",
+    "caption": "主人好厉害！",
+    "category": "praise",
+    "loop": false,
+    "cooldownMin": 5,
+    "priority": 62,
+    "durationSec": 6
+  },
+  {
+    "assetId": "praise_done",
+    "file": "顺利完成~.gif",
+    "caption": "顺利完成~",
+    "category": "praise",
+    "loop": false,
+    "cooldownMin": 5,
+    "priority": 60,
+    "durationSec": 6
+  },
+  {
+    "assetId": "break_resting",
+    "file": "休息ing.gif",
+    "caption": "休息一下，歇一歇~",
+    "category": "break",
+    "loop": false,
+    "cooldownMin": 0,
+    "priority": 45,
+    "durationSec": 7
+  },
+  {
+    "assetId": "care_eat",
+    "file": "该吃饭了.gif",
+    "caption": "该吃饭了，主人！",
+    "category": "care",
+    "loop": false,
+    "cooldownMin": 30,
+    "priority": 63,
+    "durationSec": 6
+  },
+  {
+    "assetId": "relax_calm",
+    "file": "别太紧张啦~.gif",
+    "caption": "别太紧张啦，慢慢来~",
+    "category": "relax",
+    "loop": false,
+    "cooldownMin": 30,
+    "priority": 58,
+    "durationSec": 6
+  },
+  {
+    "assetId": "health_overtime",
+    "file": "加班(〃＞目＜).gif",
+    "caption": "还在加班吗？心疼主人…",
+    "category": "health",
+    "loop": false,
+    "cooldownMin": 120,
+    "priority": 65,
+    "durationSec": 7
+  },
+  {
+    "assetId": "overload_gentleman",
+    "file": "工作越多越应该绅士.gif",
+    "caption": "工作越多越应该绅士~",
+    "category": "overload",
+    "loop": false,
+    "cooldownMin": 60,
+    "priority": 56,
+    "durationSec": 6
+  },
+  {
+    "assetId": "planning_thinking",
+    "file": "思考ing.gif",
+    "caption": "让我想想怎么安排比较好~",
+    "category": "planning",
+    "loop": false,
+    "cooldownMin": 0,
+    "priority": 50,
+    "durationSec": 7
+  },
+  {
+    "assetId": "playful_idea",
+    "file": "鬼点子发动中.gif",
+    "caption": "鬼点子发动中！",
+    "category": "playful",
+    "loop": false,
+    "cooldownMin": 30,
+    "priority": 52,
+    "durationSec": 5
+  },
+  {
+    "assetId": "recording_writing",
+    "file": "在帮主人记录ing.gif",
+    "caption": "在帮主人记录中~",
+    "category": "recording",
+    "loop": false,
+    "cooldownMin": 0,
+    "priority": 52,
+    "durationSec": 7
+  },
+  {
+    "assetId": "playful_phone",
+    "file": "小手机真好玩.gif",
+    "caption": "主人不理我…我玩会儿手机~",
+    "category": "playful",
+    "loop": false,
+    "cooldownMin": 60,
+    "priority": 30,
+    "durationSec": 6
+  },
+  {
+    "assetId": "playful_wink",
+    "file": "抛媚眼~.gif",
+    "caption": "抛媚眼~主人看我吗？",
+    "category": "playful",
+    "loop": false,
+    "cooldownMin": 0,
+    "priority": 32,
+    "durationSec": 5
+  },
+  {
+    "assetId": "greeting_appear",
+    "file": "突然出现~.gif",
+    "caption": "突然出现！我一直在的~",
+    "category": "greeting",
+    "loop": false,
+    "cooldownMin": 0,
+    "priority": 55,
+    "durationSec": 6
+  },
+  {
+    "assetId": "affection_love",
+    "file": "最喜欢主人了~.gif",
+    "caption": "最喜欢主人了~",
+    "category": "affection",
+    "loop": false,
+    "cooldownMin": 0,
+    "priority": 61,
+    "durationSec": 6
+  },
+  {
+    "assetId": "birthday_cake",
+    "file": "生日快乐.gif",
+    "caption": "生日快乐，主人！",
+    "category": "birthday",
+    "loop": false,
+    "cooldownMin": 0,
+    "priority": 100,
+    "durationSec": 8
+  }
+]

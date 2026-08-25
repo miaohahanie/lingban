@@ -1,0 +1,17 @@
+node_modules
+out
+dist
+release
+*.log
+.DS_Store
+
+# AI 工具产物（本地使用，不入库）
+.omo/
+.codegraph/
+
+# 本地素材源副本（与 resources/pet-anims 内容完全重复，避免仓库体积翻倍）
+素材/
+
+# 项目内部文档（不随开源仓库发布）
+灵伴需求文档.txt
+灵伴细化需求与技术方案.md
