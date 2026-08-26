@@ -120,7 +120,11 @@ const windowCtl: WindowCtl = {
   moveBy(dx: number, dy: number): void {
     if (!mainWindow) return
     const [x, y] = mainWindow.getPosition()
-    mainWindow.setPosition(x + dx, y + dy)
+    // Windows 上无边框透明窗口频繁调用 setPosition 会因 DIP 换算误差被逐步放大
+    // （增长方向与拖动方向一致）。改用 setBounds 并显式固定尺寸，既阻止放大，
+    // 也能让已被拉变形的窗口在下一次拖动时自动复原。
+    const size = panelOpen ? PANEL_SIZE : WINDOW_SIZE
+    mainWindow.setBounds({ x: x + dx, y: y + dy, width: size.w, height: size.h })
     savePositionSoon()
   },
   resetPosition(): void {
