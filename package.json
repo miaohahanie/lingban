@@ -1,7 +1,7 @@
 {
   "name": "lingban",
   "productName": "灵伴",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "灵伴（Spirit Mate）— AI 桌面伴侣：任务规划、专注计时、日记复盘、情绪化桌宠",
   "main": "out/main/index.js",
   "author": "LingBan Project",
