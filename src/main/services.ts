@@ -640,9 +640,9 @@ export class Services {
       else if (cmd.startsWith('写入备忘录') && cmd.length > 5) { arg = cmd.slice(5); cmd = '写入备忘录' }
       else if (cmd.startsWith('动画') && cmd.length > 2) { arg = cmd.slice(2); cmd = '动画' }
     }
-    const panelMap: Record<string, PanelName> = { '任务': 'tasks', '日记': 'diary', '计时': 'timer', '日历': 'calendar' }
+    const panelMap: Record<string, PanelName> = { '任务': 'tasks', '日记': 'diary', '计时': 'timer', '日历': 'calendar', '设置': 'settings' }
     if (cmd === 'help' || cmd === '帮助') {
-      const list = ['/任务', '/日记', '/计时', '/日历', '/打开 bilibili', '/打开 deepseek', '/复盘', '/写日记 内容', '/写入备忘录 内容', '/动画 素材名', '/自定义言语', '/清空回收站']
+      const list = ['/任务', '/日记', '/计时', '/日历', '/设置', '/打开 bilibili', '/打开 deepseek', '/复盘', '/写日记 内容', '/写入备忘录 内容', '/动画 素材名', '/自定义言语', '/清空回收站']
       return { ok: true, action: 'help', message: '预设指令：' + list.join('  ') }
     }
     if (panelMap[cmd]) {
@@ -710,7 +710,7 @@ export class Services {
   getCommandHistory(): string[] { return this.db.getCommandHistory() }
 
   getSuggestions(input: string): string[] {
-    const base = ['/任务', '/日记', '/计时', '/日历', '/复盘', '/动画', '/自定义言语', '/写日记 ', '/写入备忘录 ', '/打开 ', '/清空回收站']
+    const base = ['/任务', '/日记', '/计时', '/日历', '/设置', '/复盘', '/动画', '/自定义言语', '/写日记 ', '/写入备忘录 ', '/打开 ', '/清空回收站']
     const aliases = Object.keys(BUILTIN_ALIASES).concat(this.db.listAppMaps().map(m => m.alias))
     const assetNames = this.manifest.map(a => a.assetId)
     const all = base.concat(aliases.map(a => '/打开 ' + a), assetNames.map(a => '/动画 ' + a))
