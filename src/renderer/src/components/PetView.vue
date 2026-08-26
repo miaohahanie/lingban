@@ -117,19 +117,21 @@ function onDblClick(): void {
       </svg>
     </div>
     <div v-if="store.currentCaption && !store.panel" :key="store.captionKey" class="pet-bubble">{{ store.currentCaption }}</div>
-    <div class="pet-name">灵伴</div>
-    <div class="pet-emotion">心情：{{ store.emotion }}</div>
-    <div class="pet-click-hint">单击互动 · 按住拖动 · 双击呼出指令</div>
-    <div v-if="store.timer.active" class="mini-timer interactive">
-      <span class="mini-timer-time">⏱ {{ store.timerText }}</span>
-      <div class="mini-timer-bar"><div class="mini-timer-fill" :style="{ width: (store.timerProgress * 100) + '%' }"></div></div>
-    </div>
+    <template v-if="!store.minimalMode">
+      <div class="pet-name">灵伴</div>
+      <div class="pet-emotion">心情：{{ store.emotion }}</div>
+      <div class="pet-click-hint">单击互动 · 按住拖动 · 双击呼出指令</div>
+      <div v-if="store.timer.active" class="mini-timer interactive">
+        <span class="mini-timer-time">⏱ {{ store.timerText }}</span>
+        <div class="mini-timer-bar"><div class="mini-timer-fill" :style="{ width: (store.timerProgress * 100) + '%' }"></div></div>
+      </div>
 
-    <div class="bubbles interactive">
-      <button class="bubble" title="任务栏" @click="store.openPanel('tasks')">📋</button>
-      <button class="bubble" title="日记本" @click="store.openPanel('diary')">📖</button>
-      <button class="bubble" title="计时器" @click="store.openPanel('timer')">⏱️</button>
-      <button class="bubble" title="日历" @click="store.openPanel('calendar')">📅</button>
-    </div>
+      <div class="bubbles interactive">
+        <button class="bubble" title="任务栏" @click="store.openPanel('tasks')">📋</button>
+        <button class="bubble" title="日记本" @click="store.openPanel('diary')">📖</button>
+        <button class="bubble" title="计时器" @click="store.openPanel('timer')">⏱️</button>
+        <button class="bubble" title="日历" @click="store.openPanel('calendar')">📅</button>
+      </div>
+    </template>
   </div>
 </template>

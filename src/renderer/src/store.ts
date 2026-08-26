@@ -30,6 +30,7 @@ export const useLingbanStore = defineStore('lingban', {
     chatterPool: [] as Quote[],
     lastSpokenText: null as string | null,
     settings: {} as Record<string, unknown>,
+    minimalMode: false,
     panel: null as PanelName | null,
     commandOpen: false,
     commandText: '',
@@ -102,6 +103,7 @@ export const useLingbanStore = defineStore('lingban', {
       })
       api.on('pet:review', (p) => { this.reviewResult = p as { score: number; comment: string } })
       api.on('pet:emotion', (p) => { this.emotion = p as Emotion })
+      api.on('pet:minimal', (p) => { this.minimalMode = !!p; if (this.minimalMode) { this.panel = null; this.commandOpen = false } })
       if (this.onboardingDone) this.startChatter()
     },
 
@@ -158,6 +160,7 @@ export const useLingbanStore = defineStore('lingban', {
       this.timer = timer
       this.focusStats = focusStats
       this.history = history
+      this.minimalMode = Boolean(settings['pet_minimal_mode'])
       if (this.timer.active) this.startTimerTick()
       if (!this.currentAnimation) await this.dispatch('app_start')
     },
@@ -275,7 +278,18 @@ export const useLingbanStore = defineStore('lingban', {
       if (clearCurrent) this.currentAnimation = null
     },
 
+    /** 极简模式：只保留桌宠本体与点击互动。开启时收起面板与指令框 */
+    async setMinimalMode(v: boolean): Promise<void> {
+      this.minimalMode = v
+      await window.lingban.minimal.set(v)
+      if (v) {
+        if (this.panel) await this.closePanel()
+        this.toggleCommand(false)
+      }
+    },
+
     async openPanel(name: PanelName): Promise<void> {
+      if (this.minimalMode) return
       this.panel = name
       await window.lingban.window.setInteractive(true)
       await window.lingban.window.setPanelOpen(true)
@@ -288,6 +302,7 @@ export const useLingbanStore = defineStore('lingban', {
     },
 
     toggleCommand(open?: boolean): void {
+      if (this.minimalMode) return
       this.commandOpen = open === undefined ? !this.commandOpen : open
       if (this.commandOpen) void window.lingban.window.setInteractive(true)
     },

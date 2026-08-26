@@ -27,10 +27,10 @@ onMounted(async () => {
       <CommandBar v-if="store.commandOpen" />
     </template>
 
-    <div v-if="store.toast" class="toast">
+    <div v-if="store.toast && !store.minimalMode" class="toast">
       <div class="toast-title">{{ store.toast.title }}</div>
       <div class="toast-body">{{ store.toast.body }}</div>
     </div>
-    <div v-if="store.chatReply && !store.panel" class="chat-reply">{{ store.chatReply }}</div>
+    <div v-if="store.chatReply && !store.panel && !store.minimalMode" class="chat-reply">{{ store.chatReply }}</div>
   </div>
 </template>

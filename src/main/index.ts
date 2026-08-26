@@ -135,15 +135,8 @@ const windowCtl: WindowCtl = {
   }
 }
 
-function createTray(): void {
-  if (tray) return
-  const iconPath = app.isPackaged ? path.join(process.resourcesPath, 'icon.png') : path.join(app.getAppPath(), 'resources', 'icon.png')
-  const icon = fs.existsSync(iconPath)
-    ? nativeImage.createFromPath(iconPath)
-    : nativeImage.createFromDataURL('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==')
-  tray = new Tray(icon)
-  tray.setToolTip('灵伴 Spirit Mate')
-  const menu = Menu.buildFromTemplate([
+function buildTrayMenu(): Menu {
+  return Menu.buildFromTemplate([
     {
       label: '显示/隐藏桌宠',
       click: () => {
@@ -154,6 +147,16 @@ function createTray(): void {
     },
     { label: '今日计划', click: () => services?.openPanel('calendar') },
     { label: '设置', click: () => services?.openPanel('settings') },
+    {
+      label: '极简模式（仅保留桌宠与点击互动）',
+      type: 'checkbox',
+      checked: services?.getMinimalMode() ?? false,
+      click: () => {
+        const next = !(services?.getMinimalMode() ?? false)
+        services?.setMinimalMode(next)
+        refreshTrayMenu()
+      }
+    },
     { type: 'separator' },
     {
       label: '重置软件（保留数据）',
@@ -164,7 +167,21 @@ function createTray(): void {
     },
     { label: '退出', click: () => app.quit() }
   ])
-  tray.setContextMenu(menu)
+}
+
+function refreshTrayMenu(): void {
+  tray?.setContextMenu(buildTrayMenu())
+}
+
+function createTray(): void {
+  if (tray) return
+  const iconPath = app.isPackaged ? path.join(process.resourcesPath, 'icon.png') : path.join(app.getAppPath(), 'resources', 'icon.png')
+  const icon = fs.existsSync(iconPath)
+    ? nativeImage.createFromPath(iconPath)
+    : nativeImage.createFromDataURL('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==')
+  tray = new Tray(icon)
+  tray.setToolTip('灵伴 Spirit Mate')
+  tray.setContextMenu(buildTrayMenu())
 }
 
 const gotLock = app.requestSingleInstanceLock()

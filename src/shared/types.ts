@@ -229,6 +229,7 @@ export interface LingbanApi {
     getEnabled(): Promise<boolean>
   }
   emotions: { get(): Promise<Emotion>; notify(event: string): Promise<void> }
+  minimal: { get(): Promise<boolean>; set(v: boolean): Promise<void> }
   window: {
     setPanelOpen(open: boolean): Promise<void>
     setInteractive(interactive: boolean): Promise<void>

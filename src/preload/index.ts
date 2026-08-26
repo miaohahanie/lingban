@@ -85,6 +85,10 @@ const api: LingbanApi = {
     get: () => ipcRenderer.invoke('emotions:get'),
     notify: (event) => ipcRenderer.invoke('emotions:notify', event)
   },
+  minimal: {
+    get: () => ipcRenderer.invoke('minimal:get'),
+    set: (v) => ipcRenderer.invoke('minimal:set', v)
+  },
   window: {
     setPanelOpen: (open) => ipcRenderer.invoke('window:setPanelOpen', open),
     setInteractive: (interactive) => ipcRenderer.invoke('window:setInteractive', interactive),

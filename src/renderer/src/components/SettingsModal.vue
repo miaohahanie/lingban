@@ -10,6 +10,7 @@ const autoPlan = ref(Boolean(store.settings.auto_plan ?? true))
 const animEnabled = ref(Boolean(store.settings.pet_animation_enabled ?? true))
 const playfulEnabled = ref(Boolean(store.settings.pet_playful_enabled ?? true))
 const lowPower = ref(Boolean(store.settings.pet_low_power_mode ?? false))
+const minimalMode = ref(store.minimalMode)
 const birthday = ref(String(store.settings.birthday || ''))
 const apiKey = ref('')
 const keyMsg = ref('')
@@ -25,6 +26,10 @@ async function init(): Promise<void> {
   }
 }
 void init()
+
+async function toggleMinimal(v: boolean): Promise<void> {
+  await store.setMinimalMode(v)
+}
 
 async function saveGeneral(): Promise<void> {
   await window.lingban.app.setAutoStart(autostart.value)
@@ -126,6 +131,10 @@ window.addEventListener('mouseup', dragEnd)
       <div class="form-row"><input class="checkbox" type="checkbox" v-model="animEnabled" /><label>桌宠动画（GIF 素材）</label></div>
       <div class="form-row"><input class="checkbox" type="checkbox" v-model="playfulEnabled" /><label>整活/摸鱼互动（小手机真好玩等）</label></div>
       <div class="form-row"><input class="checkbox" type="checkbox" v-model="lowPower" /><label>低功耗模式（仅静态帧）</label></div>
+      <div class="form-row">
+        <input class="checkbox" type="checkbox" :checked="minimalMode" @change="toggleMinimal(($event.target as HTMLInputElement).checked)" />
+        <label>极简模式（只保留桌宠与点击互动，关闭面板/指令框/提醒，可从托盘菜单退出）</label>
+      </div>
       <div class="form-row"><input class="field" type="date" v-model="birthday" /><label>生日（可选）</label></div>
       <div class="form-row"><input class="field" style="width:90px" type="number" step="0.5" v-model.number="focusTarget" /><label>每日专注目标（小时）</label></div>
 

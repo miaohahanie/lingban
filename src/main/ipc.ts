@@ -93,6 +93,9 @@ export function registerIpc(svc: Services, win: WindowCtl): void {
   ipcMain.handle('emotions:get', () => svc.getEmotion())
   ipcMain.handle('emotions:notify', (_e, event: string) => svc.notifyEmotion(event))
 
+  ipcMain.handle('minimal:get', () => svc.getMinimalMode())
+  ipcMain.handle('minimal:set', (_e, v: boolean) => svc.setMinimalMode(!!v))
+
   ipcMain.handle('window:setPanelOpen', (_e, open: boolean) => win.setPanelOpen(open))
   ipcMain.handle('window:setInteractive', (_e, interactive: boolean) => win.setInteractive(interactive))
   ipcMain.handle('window:getPosition', () => win.getPosition())

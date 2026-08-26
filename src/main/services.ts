@@ -114,6 +114,14 @@ export class Services {
   private getPlayfulEnabled(): boolean { return this.getSetting<boolean>('pet_playful_enabled', true) }
   setAnimationEnabled(v: boolean): void { this.setSetting('pet_animation_enabled', v) }
 
+  // ---------- minimal mode（极简模式） ----------
+  /** 极简模式：只保留桌宠本体与点击互动，面板/指令框/提醒通知等全部关闭 */
+  getMinimalMode(): boolean { return this.getSetting<boolean>('pet_minimal_mode', false) }
+  setMinimalMode(v: boolean): void {
+    this.setSetting('pet_minimal_mode', !!v)
+    this.send('pet:minimal', !!v)
+  }
+
   // ---------- emotion ----------
   setEmotion(e: Emotion): void {
     this.emotion = e
@@ -206,6 +214,8 @@ export class Services {
     if (this.win && !this.win.isDestroyed()) this.win.webContents.send(channel, payload)
   }
   async notify(title: string, body: string, event?: string): Promise<void> {
+    // 极简模式：提醒/关怀/通知全部静默
+    if (this.getMinimalMode()) return
     const anim = event ? this.trigger(event) : null
     this.send('pet:notify', { title, body, animation: anim })
     if (this.getSetting<boolean>('system_notifications', true)) {
@@ -810,7 +820,7 @@ export class Services {
       }
     }
 
-    if (this.getSetting<boolean>('pet_playful_enabled', true) && !running && (hour >= 9 && hour <= 18)) {
+    if (this.getSetting<boolean>('pet_playful_enabled', true) && !this.getMinimalMode() && !running && (hour >= 9 && hour <= 18)) {
       const key = 'idle:' + date + ':' + hour
       if (this.lastSignals.get(key) !== date) {
         this.lastSignals.set(key, date)
