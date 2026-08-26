@@ -1,9 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useLingbanStore } from '../store'
 
 const store = useLingbanStore()
 const historyIndex = ref(-1)
+
+// 点击指令框外部时自动关闭（popover 行为），避免常驻占位
+function onDocMouseDown(e: MouseEvent): void {
+  const el = e.target as HTMLElement | null
+  if (el && el.closest('.command-bar')) return
+  store.toggleCommand(false)
+}
+onMounted(() => { document.addEventListener('mousedown', onDocMouseDown) })
+onBeforeUnmount(() => { document.removeEventListener('mousedown', onDocMouseDown) })
 
 async function onInput(): Promise<void> {
   // 预设指令默认隐藏，只有输入 /help 时才显示

@@ -90,37 +90,100 @@ export class DB {
   }
 
   private seedQuotes(): void {
-    if (this.data.quotes.length) return
     const defaults: { category: string; text: string }[] = [
+      // ---------- 问候 ----------
       { category: 'greeting', text: '早上好呀，主人~ 今天也要元气满满！' },
       { category: 'greeting', text: '突然出现！我一直都在哦~' },
+      { category: 'greeting', text: '主人来啦~我等你好久了呢。' },
+      { category: 'greeting', text: '新的一天，从见到主人开始~' },
+      { category: 'greeting', text: '欢迎回来，主人！茶已经泡好了哦~' },
+      { category: 'greeting', text: '嘿嘿，被你发现我在偷懒了~' },
+      // ---------- 关怀 ----------
       { category: 'care', text: '该吃饭啦，先好好吃饭再工作吧！' },
       { category: 'care', text: '喝口水休息一下，别太累啦~' },
+      { category: 'care', text: '坐久了要站起来伸个懒腰哦~' },
+      { category: 'care', text: '主人眼睛累了吧？看看远处休息一下~' },
+      { category: 'care', text: '下午茶时间到啦，吃点小点心吧~' },
+      { category: 'care', text: '别饿着肚子工作呀，胃会抗议的！' },
+      { category: 'care', text: '肩膀是不是有点酸？转一转放松一下~' },
+      { category: 'care', text: '记得多喝水呀，我可是会盯着你的哦~' },
+      { category: 'care', text: '窗外天气怎么样？累了就看看天空吧~' },
+      // ---------- 专注 ----------
       { category: 'focus_start', text: '开始专注工作啦，加油！' },
+      { category: 'focus_start', text: '灵伴帮你看时间，主人专心就好~' },
+      { category: 'focus_start', text: '进入状态吧，我会安静陪着你的。' },
       { category: 'focus_end', text: '顺利完成~ 主人辛苦啦！' },
+      { category: 'focus_end', text: '完成一段专注啦，奖励自己休息一下吧~' },
+      { category: 'focus_end', text: '干得漂亮！主人今天效率很高呢~' },
+      // ---------- 休息 ----------
       { category: 'break', text: '休息一下，摸摸头~' },
       { category: 'break', text: '小憩几分钟，回来继续~' },
+      { category: 'break', text: '伸个懒腰，深呼吸~' },
+      { category: 'break', text: '去窗边看看远方吧，对眼睛好~' },
+      // ---------- 鼓劲 ----------
       { category: 'cheer', text: '主人加油呀！你可以的！' },
+      { category: 'cheer', text: '没关系的，一步一步来~' },
+      { category: 'cheer', text: '主人认真的样子最棒了！' },
+      { category: 'cheer', text: '相信自己，你可是我最骄傲的主人！' },
+      { category: 'cheer', text: '今天的努力，是明天的底气哦~' },
+      // ---------- 夸奖 ----------
       { category: 'praise', text: '主人好厉害！完成得真棒！' },
       { category: 'praise', text: '今天也稳稳地完成了任务~' },
+      { category: 'praise', text: '又完成一个任务！主人太靠谱了~' },
+      { category: 'praise', text: '这个进度我很满意哦，继续保持~' },
+      // ---------- 放松 ----------
       { category: 'relax', text: '别太紧张啦，慢慢来，有我陪着你~' },
+      { category: 'relax', text: '深呼吸~事情会一件一件做完的。' },
+      { category: 'relax', text: '太累了就靠着我歇一会儿吧~' },
+      // ---------- 健康 ----------
       { category: 'health', text: '已经工作很久啦，起来活动一下吧~' },
       { category: 'health', text: '心疼主人，忙完要早点休息哦~' },
+      { category: 'health', text: '久坐对身体不好，起来走两步嘛~' },
+      { category: 'health', text: '已经很晚了，手机放下，睡觉！' },
+      // ---------- 任务过多 ----------
       { category: 'overload', text: '工作越多越应该绅士，先喝杯茶~' },
+      { category: 'overload', text: '别慌，把大任务切成小块就好了~' },
+      { category: 'overload', text: '按优先级一个个来，我帮你盯着呢~' },
+      // ---------- 俏皮 ----------
       { category: 'playful', text: '主人不理我…我玩会儿手机~' },
       { category: 'playful', text: '抛媚眼~主人看我吗？' },
       { category: 'playful', text: '鬼点子发动中！嘿嘿~' },
+      { category: 'playful', text: '嘿嘿，我在偷偷看你哦~' },
+      { category: 'playful', text: '今天有没有想我呀？' },
+      { category: 'playful', text: '摸摸我的头，我就不闹了~' },
+      { category: 'playful', text: '哼，再不理我，我就画圈圈诅咒你…才怪！' },
+      { category: 'playful', text: '我刚刚在数主人的头发玩…嗯，很浓密！' },
+      // ---------- 依赖/感情 ----------
       { category: 'affection', text: '最喜欢主人了~' },
+      { category: 'affection', text: '有我在，主人永远不用逞强~' },
+      { category: 'affection', text: '主人是我最重要的人哦。' },
+      { category: 'affection', text: '今天的陪伴额度：无限~' },
+      // ---------- 生日 ----------
       { category: 'birthday', text: '生日快乐！祝主人愿望成真！' },
+      // ---------- 随机闲聊 ----------
       { category: 'random', text: '我在呢，随时叫我哦~' },
       { category: 'random', text: '今天也要好好照顾自己~' },
       { category: 'random', text: '主人今天心情怎么样呀？' },
-      { category: 'random', text: '灵伴会一直陪着你~' }
+      { category: 'random', text: '灵伴会一直陪着你~' },
+      { category: 'random', text: '说起来，主人午饭吃了什么呀？' },
+      { category: 'random', text: '要不要试试双击我呼出指令框呀？' },
+      { category: 'random', text: '长按我可以把我拖到喜欢的位置哦~' },
+      { category: 'random', text: '悄悄说：试试「/打开 bilibili」这种指令~' },
+      { category: 'random', text: '无论什么时候，我都会陪着主人的。' },
+      { category: 'random', text: '主人的小秘密，我都会好好保管的~' },
+      { category: 'random', text: '今天有什么开心的事吗？讲给我听听嘛~' },
+      { category: 'random', text: '星星不问赶路人，我陪着主人走到最后~' }
     ]
+    const version = 2
+    if (Number(this.getSetting('quotes_seed_version', 0)) >= version) return
+    // 按文本去重追加：新装全量播种，老数据只补新增条目
+    const existing = new Set(this.data.quotes.map(q => q.text))
     const t = now()
     for (const q of defaults) {
+      if (existing.has(q.text)) continue
       this.data.quotes.push({ id: randomUUID(), category: q.category, text: q.text, enabled: 1, created_at: t })
     }
+    this.setSetting('quotes_seed_version', version)
   }
 
   private save(): void {

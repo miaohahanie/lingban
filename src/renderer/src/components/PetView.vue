@@ -10,6 +10,14 @@ let lastY = 0
 let dragRaf = 0
 let pendingDx = 0
 let pendingDy = 0
+// 缓存窗口穿透状态，避免每次 mousemove 都发起 IPC（IPC 往返延迟会造成点击被穿透丢失）
+let interactiveState = false
+
+function setInteractive(v: boolean): void {
+  if (interactiveState === v) return
+  interactiveState = v
+  void window.lingban.window.setInteractive(v)
+}
 
 const assetSrc = computed(() => {
   const anim = store.currentAnimation
@@ -19,7 +27,7 @@ const assetSrc = computed(() => {
 })
 
 async function onMove(e: MouseEvent): Promise<void> {
-  await window.lingban.window.setInteractive(true)
+  setInteractive(true)
   if (dragging.value) {
     if ((e.buttons & 1) === 0) { dragging.value = false; return }
     const dx = e.screenX - lastX
@@ -45,7 +53,7 @@ async function onMove(e: MouseEvent): Promise<void> {
 function onMouseLeave(): void {
   // 面板/命令框/设置打开时保持窗口可交互，避免离开桌宠区域导致点击失效
   if (store.panel || store.commandOpen) return
-  if (!dragging.value) void window.lingban.window.setInteractive(false)
+  if (!dragging.value) setInteractive(false)
 }
 
 function onMouseDown(e: MouseEvent): void {
@@ -62,7 +70,7 @@ function onMouseUp(): void {
   if (dragRaf) { cancelAnimationFrame(dragRaf); dragRaf = 0 }
   pendingDx = 0
   pendingDy = 0
-  void window.lingban.window.setInteractive(true)
+  setInteractive(true)
   setTimeout(() => { moved.value = false }, 0)
 }
 
@@ -71,7 +79,7 @@ onBeforeUnmount(() => { window.removeEventListener('mouseup', onMouseUp) })
 
 async function onClick(): Promise<void> {
   if (moved.value) return
-  await store.dispatch('click')
+  await store.clickInteract()
 }
 
 function onDblClick(): void {
@@ -108,7 +116,7 @@ function onDblClick(): void {
         <circle cx="138" cy="118" r="8" fill="#f7b8c4" opacity=".8"/>
       </svg>
     </div>
-    <div v-if="store.currentCaption && !store.panel && !store.commandOpen" :key="store.captionKey" class="pet-bubble">{{ store.currentCaption }}</div>
+    <div v-if="store.currentCaption && !store.panel" :key="store.captionKey" class="pet-bubble">{{ store.currentCaption }}</div>
     <div class="pet-name">灵伴</div>
     <div class="pet-emotion">心情：{{ store.emotion }}</div>
     <div class="pet-click-hint">单击互动 · 按住拖动 · 双击呼出指令</div>

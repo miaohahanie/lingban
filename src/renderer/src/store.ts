@@ -27,6 +27,8 @@ export const useLingbanStore = defineStore('lingban', {
     memos: [] as Memo[],
     quotes: [] as Quote[],
     chatterTimer: null as ReturnType<typeof setInterval> | null,
+    chatterPool: [] as Quote[],
+    lastSpokenText: null as string | null,
     settings: {} as Record<string, unknown>,
     panel: null as PanelName | null,
     commandOpen: false,
@@ -92,7 +94,12 @@ export const useLingbanStore = defineStore('lingban', {
         setTimeout(() => { this.toast = null }, 6000)
       })
       api.on('pet:openPanel', (p) => this.openPanel(p as PanelName))
-      api.on('pet:chatReply', (p) => { this.chatReply = String(p || '') })
+      api.on('pet:chatReply', (p) => {
+        const text = String(p || '')
+        this.chatReply = text
+        // 回复框 10s 后自动消失，避免长期驻留顶部遮挡气泡
+        if (text) setTimeout(() => { if (this.chatReply === text) this.chatReply = null }, 10000)
+      })
       api.on('pet:review', (p) => { this.reviewResult = p as { score: number; comment: string } })
       api.on('pet:emotion', (p) => { this.emotion = p as Emotion })
       if (this.onboardingDone) this.startChatter()
@@ -100,11 +107,25 @@ export const useLingbanStore = defineStore('lingban', {
 
     startChatter(): void {
       if (this.chatterTimer) return
+      this.chatterPool = []
+      // 每秒 tick 一次，以低概率（约 1%，平均 ~100 秒一句）随机吐一句话
       this.chatterTimer = setInterval(() => {
-        if (this.panel || this.commandOpen || !this.quotes.length || this.stateLoopKind) return
-        const q = this.quotes[Math.floor(Math.random() * this.quotes.length)]
-        if (q) this.showCaption(q.text)
-      }, 90000)
+        // 面板/指令打开或气泡正在显示时跳过，避免遮挡与台词互相打断
+        if (this.panel || this.commandOpen || this.currentCaption) return
+        const pool = this.quotes.filter(q => q.enabled === 1)
+        if (!pool.length) return
+        if (Math.random() > 0.01) return
+        // 洗牌池轮播，避免连续重复同一句
+        if (!this.chatterPool.length) {
+          this.chatterPool = [...pool].sort(() => Math.random() - 0.5)
+        }
+        let q = this.chatterPool.pop()
+        if (q && q.text === this.lastSpokenText && this.chatterPool.length) {
+          const swap = this.chatterPool.pop()
+          if (swap) { this.chatterPool.unshift(q); q = swap }
+        }
+        if (q) { this.lastSpokenText = q.text; this.showCaption(q.text) }
+      }, 1000)
     },
 
     stopChatter(): void {
@@ -170,6 +191,21 @@ export const useLingbanStore = defineStore('lingban', {
       const anim = await window.lingban.animation.trigger(event)
       if (anim) await this.setAnimation(anim)
       return anim
+    },
+
+    /** 点击互动：切换动画 + 从语料库随机说一句话（气泡 3.5s 后消失）。
+     *  动画与说话解耦：动画被禁用/触发失败时也保证有语音反馈。 */
+    async clickInteract(): Promise<void> {
+      const pool = this.quotes.filter(q => q.enabled === 1 && q.category !== 'birthday')
+      const source = pool.length ? pool : [{ id: 'fallback', category: 'random', text: '我在呢~', enabled: 1, created_at: 0 } as Quote]
+      let q = source[Math.floor(Math.random() * source.length)]
+      // 避免与上一句重复，最多重试 4 次
+      for (let i = 0; i < 4 && q.text === this.lastSpokenText && source.length > 1; i++) {
+        q = source[Math.floor(Math.random() * source.length)]
+      }
+      try { await this.dispatch('click') } catch { /* 动画失败不影响说话 */ }
+      this.lastSpokenText = q.text
+      this.showCaption(q.text)
     },
 
     async setAnimation(anim: PetAnimationEvent | null): Promise<void> {
